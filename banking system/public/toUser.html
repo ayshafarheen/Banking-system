@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html class="check" style="background-color: white;">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Banking system</title>
+		<link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.0/css/bulma.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.0.2/sha.js"></script>
+		<!-- <link rel="stylesheet" href="debug.css"> -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-firestore.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-analytics.js"></script>
+<script src="js/firebase.js"></script>
+        <script src="js/main.js"></script>
+
+
+        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bulma-tagsinput@2.0.0/dist/js/bulma-tagsinput.min.js">
+        </script>
+    <link href="http://fonts.cdnfonts.com/css/sofia-pro" rel="stylesheet">
+        <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+        </script>
+		<style>
+            body{
+              font-family: 'Sofia Pro', sans-serif;
+font-style: normal;
+font-weight: 300;
+            }
+            /* .check {
+    	width:100%;
+    	height:100%;
+    	background: linear-gradient(33.46deg, #3b3355 0%, #5b5a61 100%);
+    }  */
+
+    .gradient {
+      background: #000000;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.card:hover .card-header-title{
+  color: #06beb6;
+  transition: 300ms;
+  transform: scale(1.1);
+}
+
+
+
+
+.selected {
+  background-color: darkred;
+}
+
+.button:hover{
+  transition: 300ms;
+  transform: scale(1.1);
+  color: white;
+  
+}
+
+
+.button{
+  color: white;
+  border-radius: 15px;
+  background: #06beb6;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #48b1bf, #06beb6);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #48b1bf, #06beb6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+font-family: 'Sofia Pro', sans-serif;
+
+}
+
+	</style>
+  </head>
+  <body>
+    <!-- <div class="split left">
+      <div class="column">
+        <div class="box" style="background-color: white; margin-top: 100px; cursor: pointer;">
+          </div>
+      </div>
+    </div> -->
+
+    <nav class="navbar is-black is-spaced" role="navigation" aria-label="main navigation" style="box-shadow:0 0 0 0 #f5f5f5; background-color: white; color: black;" >
+      <div class="navbar-brand">
+        <p style="font-size: xxx-large; font-weight: 600; ">Which account do you want to transfer to? </p>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            
+            <a href="fromUser.html">
+              <button class="button is-medium" style="box-shadow:0 0px 25px 0 rgba(0,0,0,0.15); border: white;">
+                <i class="fas fa-arrow-up "></i>
+            </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <br>
+    <br>
+          <!-- <div class="box" style="background-color: #202020; cursor: pointer;">
+          <div style="display: flex; justify-content: space-between;">
+              <span class="is-flex">
+                  <strong style="color: white; margin-left: 15px; margin-right: 30px;">John Doe</strong>
+              </span>
+          </div>
+      </div> -->
+      <div class="columns is-centered card-info">
+        
+    </div>
+    <div style="text-align: center;">
+    <strong style="color: #ffffff; font-size: x-large;">
+        TO
+    </strong>
+</div>
+<br>
+<div class="towhom">
+    <!-- <div class="is-centered columns" onclick="openmodal()">
+        <div class="column is-7">
+            <div class="card leftside" style="border-radius: 10px; padding:5px; cursor:pointer;box-shadow:0 0 0 0 #f5f5f5;">
+                <header class="card-header" style="border-radius: 30px;">
+                    <p class="card-header-title">
+                        hello
+                    </p>
+                </header>
+            </div>
+        </div>
+    </div> -->
+</div>
+<div class="modal big">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="box mod" style="background-color:white; text-align: center;">
+            <form id="transaction"></form>
+        </div>
+    </div>
+    <div class="modal completed">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box mod" style="background-color: #fff1ff; text-align: center;">
+                TRANSACTION COMPLETED!!!!
+            </div>
+        </div>
+        
+        <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+    
+    <button class="modal-close is-large" aria-label="close"></button>
+</div>
+<script>
+    $(".modal-close").click(function() {
+    $(".modal").removeClass("is-active");
+    });
+</script>
+    <script src="js/toUser.js"></script>
+  </body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html class="check loaded" style="background-color: white; transition: 5s;">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Banking system</title>
+    <link rel="stylesheet" href="node_modules\bulma-modal-fx\dist\css\modal-fx.min.css" />
+        <script type="text/javascript" src="node_modules\bulma-modal-fx\dist\js\modal-fx.min.js"></script>
+		<link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.0/css/bulma.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.0.2/sha.js"></script>
+		<!-- <link rel="stylesheet" href="debug.css"> -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-firestore.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-analytics.js"></script>
+<script src="js/firebase.js"></script>
+        <script src="js/main.js"></script>
+
+
+        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bulma-tagsinput@2.0.0/dist/js/bulma-tagsinput.min.js">
+        </script>
+  <link href="http://fonts.cdnfonts.com/css/sofia-pro" rel="stylesheet">
+                
+        <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+        </script>
+		<style>
+            body{
+              font-family: 'Sofia Pro', sans-serif;
+font-style: normal;
+font-weight: 300;
+            }
+
+      .leftside:hover ,.card:focus{
+   box-shadow:0 15px 70px 0 rgba(0,0,0,0.25) ;
+}
+
+.card:hover .card-header-title{
+  color: #06beb6;
+  transition: 300ms;
+  transform: scale(1.1);
+}
+
+.leftside{
+  transition: 0.5s
+}
+
+.button:hover{
+  transition: 300ms;
+  transform: scale(1.1);
+  color: white;
+}
+
+
+.button{
+  color: white;
+  border-radius: 15px;
+  background: #06beb6;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #48b1bf, #06beb6);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #48b1bf, #06beb6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+font-family: 'Sofia Pro', sans-serif;
+box-shadow:0 0px 25px 0 rgba(0,0,0,0.15); 
+border: white;
+
+}
+
+
+.selected {
+  background-color: darkred;
+  
+}
+
+
+
+	</style>
+  <!-- <script>
+    $(document).ready(function() {
+ 
+ setTimeout(function(){
+     $('body').addClass('loaded');
+ }, 3000);
+
+});
+  </script> -->
+  </head>
+  <body>
+
+
+    <nav class="navbar is-black is-spaced" role="navigation" aria-label="main navigation" style="box-shadow:0 0 0 0 #f5f5f5; background-color:white;">
+      <div class="navbar-brand">
+        <p style="font-size: xxx-large; font-weight: 600; color:black ">Which account do you want to transfer from? </p>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <div class="modal addmodal">
+              <div class="modal-background"></div>
+              <div class="modal-content">
+                <div class="card" style="background-color: white;">
+                  <div class="card-content">
+                    <div class="content">
+                      <strong style="font-size:x-large; color:black;">Add User</strong>
+                      <br>
+                      <br>
+                      <form id="details">
+                        <div class="field">
+                          <label class="label">E-mail</label>
+                          <div class="control">
+                            <input class="input" id="email" type="text" placeholder="E-mail">
+                          </div>
+                        </div>
+                        <div class="field">
+                          <label class="label">Name</label>
+                          <div class="control">
+                            <input class="input" type="text" id="name" placeholder="Name">
+                          </div>
+                        </div>
+                        <div class="field">
+                          <label class="label">Current Balance</label>
+                          <div class="control has-icons-left">
+                            <input class="input" type="number" id="balance" placeholder="Amount">
+                            <span class="icon is-small is-left">
+                              <i class="fas fa-dollar-sign"></i>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <label class="label">Pin</label>
+                          <p class="control has-icons-left">
+                            <input class="input" type="password" id="password" placeholder="Pin" pattern="[0-9]{4}" title="Must contain exactly 4 numbers" required>
+                            <span class="icon is-small is-left">
+                              <i class="fas fa-key"></i>
+                            </span>
+                          </p>
+                        </div>
+                        <br>
+                        <div class="field is-grouped is-centered" style="text-align: center;">
+                          <div class="control" >
+                            <button style="color: white;" class="button create">CREATE</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button class="modal-close is-large" aria-label="close"></button>
+            </div>
+            <div class="modal history">
+              <div class="modal-background"></div>
+              <div class="modal-content" style="width: 800px;">
+                  <div class="box" style="background-color: white; text-align: center;">
+                     <strong style="color:black; font-size: x-large;">Transaction History</strong> 
+                     <br>
+                     <br>
+                     <div style="color: aliceblue;font-size: larger;">
+                      <div class="table-container" >
+                        <table class="table" style="margin-left:auto; 
+                        margin-right:auto;" >
+                          <thead>
+                            <tr>
+                              <th><abbr title="Sno" style="text-decoration: none;">S.No.</abbr></th>
+                              <th><abbr title="Date" style="text-decoration: none;">Date</abbr></th>
+                              <th><abbr title="From" style="text-decoration: none;">From</abbr></th>
+                              <th><abbr title="To" style="text-decoration: none;">To</abbr></th>
+                              <th><abbr title="Amount" style="text-decoration: none;">Amount</abbr></th>
+                            </tr>
+                          </thead>
+                          <tbody class="main">
+                          </tbody>
+                        </table>
+                  
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              
+              <button class="modal-close is-large" aria-label="close"></button>
+          </div>
+          
+            <a class="button is-medium"  onclick="history()" >
+              <span>
+              <i class="fa fa-history" aria-hidden="true"></i>
+              <strong>History</strong>
+            </span>
+            </a>
+            <a class="button is-medium lanuchModal"   onclick="start()">
+              <span>
+                <i class="fas fa-user-plus"></i>
+                <strong>Add user</strong>
+              </span>
+              
+            </a>
+            <a href="index.html">
+                <button class="button is-medium" >
+                    <i class="fas fa-arrow-up "></i>
+                </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <br>
+    <br>
+          <!-- <div class="box" style="background-color: #202020; cursor: pointer;">
+          <div style="display: flex; justify-content: space-between;">
+              <span class="is-flex">
+                  <strong style="color: white; margin-left: 15px; margin-right: 30px;">John Doe</strong>
+              </span>
+          </div>
+      </div> -->
+      <div class="split left">
+      <div class="column leftc">
+
+          </div>
+      </div>
+      <div class="modal pin">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box mod" style="
+             text-align: center;">
+               <strong style=" font-size: x-large; margin-right: 20px;">Enter pin</strong> 
+               <br>
+               <br> 
+               <form id="passaccept">
+               <div class="field">
+                <p class="control has-icons-left">
+                  <input class="input" type="password" id="passinput" placeholder="Pin" required>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-key"></i>
+                  </span>
+                </p>
+              </div>
+            </form>
+            </div>
+        </div>
+        
+        <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+      <!-- <div class="split right">
+        <div class="column rightc">
+
+      </div>
+    </div> -->
+    <script>
+      $(".modal-close").click(function() {
+        $(".modal").removeClass("is-active");
+      });
+    </script>
+    <script src="js/fromUser.js"></script>
+  </body>
+</html>
